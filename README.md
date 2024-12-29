@@ -8,7 +8,7 @@ import asyncio
 from ChillBot import Music
 
 async def main():
-    data = await Music.get_top_ten(123)
+    data = await Music.get_top_ten(123) # Replace 123 with Discord user ID
     print(data)
 
 asyncio.run(main())
