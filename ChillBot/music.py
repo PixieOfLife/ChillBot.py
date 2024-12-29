@@ -64,7 +64,7 @@ class Music:
         )
 
         if response.status == 404:
-            raise UserNotFound
+            raise UserNotFound()
         
         else:
             return MusicResponse(await response.json())
