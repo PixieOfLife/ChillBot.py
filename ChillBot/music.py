@@ -33,14 +33,14 @@ class Music:
     async def get_top_ten(id: str):
         """Gets the top 10 music data request"""
         response = await Request(
-            headers={"Content-Type": "application/json"}
+            headers={"Content-Type": "application/json"},
+            params={"user_id": id}
         ).GET(
-            "/music",
-            {"user_id": id}
+            "/music"
         )
 
-        if response.status_code == 404:
+        if response.status == 404:
             raise UserNotFound
         
         else:
-            MusicResponse(response.json())
+            MusicResponse(await response.json())
