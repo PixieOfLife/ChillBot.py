@@ -1,5 +1,5 @@
 # ChillBot.py
-A Python package that uses aiohttp to request Roblox data.
+An API wrapper for ChillBot's API.
 
 # Quick Example
 Here's an example where you can get the user top 10 music data
