@@ -1,0 +1,1 @@
+BaseAPI = "https://chillbot.cloud/api"
