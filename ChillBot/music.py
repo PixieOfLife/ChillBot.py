@@ -11,14 +11,16 @@ class MusicResponse:
 
     @property
     def id(self) -> int:
-        """The User ID it returns\n
+        """
+        The User ID it returns
         Type: int
         """
         return self._response.get('_id')
     
     @property
     def artists(self) -> list:
-        """Returns the list of artists\n
+        """
+        Returns the list of artists\n
         Type: list
         """
         return self._response.get('artists')
