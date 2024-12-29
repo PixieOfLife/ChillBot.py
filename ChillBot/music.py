@@ -43,4 +43,4 @@ class Music:
             raise UserNotFound
         
         else:
-            MusicResponse(await response.json())
+            return MusicResponse(await response.json())
