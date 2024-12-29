@@ -8,7 +8,8 @@ import asyncio
 from ChillBot import Music
 
 async def main():
-    await Music.get_top_ten(123)
+    data = await Music.get_top_ten(123)
+    print(data)
 
 asyncio.run(main())
 ```
