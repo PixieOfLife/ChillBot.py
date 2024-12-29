@@ -28,10 +28,9 @@ class MusicResponse:
 
 class Music:
     """Music class for requesting Music data"""
-    def __init__(self):
-        super().__init__()
     
-    async def get_top_ten(self, id: str):
+    @staticmethod
+    async def get_top_ten(id: str):
         """Gets the top 10 music data request"""
         response = await Request(
             headers={"Content-Type": "application/json"}
