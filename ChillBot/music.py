@@ -5,6 +5,9 @@ class MusicResponse:
     """Music data response from user ID"""
     def __init__(self, response: dict):
         self._response = response
+    
+    def __call__(self):
+        return self._response
 
     @property
     def id(self) -> int:
