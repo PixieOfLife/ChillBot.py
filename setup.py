@@ -10,6 +10,7 @@ setup(
     name="ChillBot.py",
     version=__version__,
     description="An API wrapper for ChillBot's API",
+    long_description="Temp",
     author="RainzDev",
     author_email="jessrblx16@gmail.com",
     install_requires=parse_requirements_file("requirements.txt"),
