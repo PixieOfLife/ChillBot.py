@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../ChillBot'))
+# sys.path.insert(0, os.path.abspath('../ChillBot'))
 
 project = "ChillBot.py"
 copyright = "2024, ChillBot"
