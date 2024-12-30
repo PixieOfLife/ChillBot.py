@@ -1,0 +1,2 @@
+.. automodule:: noodles
+   :members:
