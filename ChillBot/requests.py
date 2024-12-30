@@ -1,5 +1,5 @@
 import aiohttp
-from .base_urls import BaseAPI
+from ChillBot.base_urls import BaseAPI
 
 class Request:
     def __init__(self, headers: dict[str, str], params: dict[str, str]):
