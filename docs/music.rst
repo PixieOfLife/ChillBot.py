@@ -2,5 +2,5 @@
 Music
 =========
 
-.. automodule:: ChillBot
+.. automodule:: ChillBot.music
     :members:
