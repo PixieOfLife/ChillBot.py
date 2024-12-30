@@ -1,9 +1,12 @@
-.. ChillBot.py Documentation
+   ChillBot.py Documentation
+   =====================================
 
-Contents:
+   .. toctree::
+      :maxdepth: 2
+      :caption: Contents:
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   some_other_page
+   .. automodule:: ChillBot
+      :members:
+      :undoc-members:
+      :show-inheritance:
+   
