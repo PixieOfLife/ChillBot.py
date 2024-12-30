@@ -25,15 +25,3 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel aiohttp  # Needed for building the package
 
-    - name: Build the package
-      run: |
-        python setup.py sdist bdist_wheel  # This creates the source and wheel distributions
-
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      run: |
-        sphinx-build -b html source build # Builds the documents
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: build/html
