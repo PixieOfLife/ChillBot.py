@@ -22,5 +22,6 @@ setup(
     python_requires=">=3.10",
     project_urls={
         "Homepage": "https://github.com/RainzDev/ChillBot.py",
+        "Documentation": "https://chillbotpy.readthedocs.io/en/latest/index.html",
     }
 )

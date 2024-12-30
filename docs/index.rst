@@ -7,3 +7,4 @@ ChillBot.py
     :caption: Contents:
 
     music.rst
+    exceptions.rst
