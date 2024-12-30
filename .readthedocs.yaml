@@ -9,4 +9,5 @@ build:
       - pip install sphinx sphinx-rtd-theme
 
 sphinx:
+  configuration: docs/conf.py
   fail_on_warning: false
