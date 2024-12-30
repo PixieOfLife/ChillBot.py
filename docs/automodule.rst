@@ -1,5 +1,5 @@
 Nooodles Module
 ===============
 
-.. automodule:: noodles
+.. automodule:: ChillBot
    :members:
