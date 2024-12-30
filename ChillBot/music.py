@@ -80,7 +80,10 @@ class Music:
     
     @staticmethod
     async def get_top_ten(id: str):
-        """Gets the top 10 music data request"""
+        """Gets the top 10 music data request
+
+           Returns: MusicResponse
+        """
         response = await Request(
             headers={"Content-Type": "application/json"},
             params={"user_id": id}

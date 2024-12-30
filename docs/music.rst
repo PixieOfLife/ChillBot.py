@@ -1,6 +1,5 @@
-.. currentmodule:: ChillBot.Music
 
-Allowance
+Music
 =========
 
-.. autofunction:: get_top_ten
+.. autofunction:: ChillBot.Music.get_top_ten
