@@ -1,10 +1,9 @@
-.. automodule:: ChillBot
-    :members:
-    :undoc-members:
 
-ChillBot.py Documentation
+ChillBot.py
 =====================================
 
 .. toctree::
     :maxdepth: 2
     :caption: Contents:
+
+    .. automodule:: ChillBot
