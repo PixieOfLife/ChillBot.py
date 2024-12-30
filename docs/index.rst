@@ -6,4 +6,4 @@ ChillBot.py
     :maxdepth: 2
     :caption: Contents:
 
-    .. automodule:: ChillBot.Music
+    music.rst
