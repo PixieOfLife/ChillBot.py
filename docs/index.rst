@@ -3,7 +3,7 @@
 
    .. toctree::
       :maxdepth: 2
-      :caption: test:
+      :caption: Contents:
 
    .. automodule:: ChillBot
       :members:
