@@ -1,13 +1,38 @@
 from .requests import Request
 from .exceptions import UserNotFound
 
+class TrackItem:
+    """Gets the track data"""
+    def __init__(self, name: str, plays: int):
+        self._name = name
+        self._plays = plays
+    
+    def __str__(self):
+        return f"<TrackItem name={self._name} tracks={self._tracks}>"
+    
+    @property
+    def name(self) -> str:
+        """The name of the track
+        
+           Type: str
+        """
+        return self._name
+    
+    @property
+    def plays(self) -> int:
+        """How many times it was played
+        
+           Type: str
+        """
+        return self._plays
+
 class ArtistListItem:
     """Artist data list"""
     def __init__(self, artist: list):
         self._artist = artist
     
-    def __call__(self):
-        return self._artist
+    def __str__(self):
+        return f"<ArtistListItem name={self.name} tracks={self.tracks}>"
     
     @property
     def name(self) -> str:
@@ -18,20 +43,20 @@ class ArtistListItem:
         return self._artist.get('name')
     
     @property
-    def tracks(self) -> dict:
+    def tracks(self) -> list[TrackItem]:
         """Amount of tracks
         
            Type: dict
         """
-        return self._artist.get('tracks')
+        return [TrackItem(x, y) for x, y in self._artist.get('tracks').items()]
 
 class MusicResponse:
     """Music data response from user ID"""
     def __init__(self, response: dict):
         self._response = response
     
-    def __call__(self):
-        return self._response
+    def __str__(self):
+        return f"<MusicResponse id={self.id} artists={self.artists}>"
 
     @property
     def id(self) -> int:
@@ -42,7 +67,7 @@ class MusicResponse:
         return self._response.get('_id')
     
     @property
-    def artists(self):
+    def artists(self) -> list[ArtistListItem]:
         """Returns the list of artists
 
            Type: list
