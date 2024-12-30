@@ -29,11 +29,9 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel  # This creates the source and wheel distributions
 
-    - name: Upload to PyPI
-      uses: pypa/gh-action-pypi-publish@v1
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
       env:
-        TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-      run: |
-        pip install twine
-        twine upload dist/*  # This uploads the distributions to PyPI
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build/html
