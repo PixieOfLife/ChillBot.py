@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, os.path.abspath('../'))
 
 import ChillBot
-print(dict(ChillBot))
+print(dir(ChillBot))
 
 project = "ChillBot.py"
 copyright = "2024, ChillBot"
