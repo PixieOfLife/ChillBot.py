@@ -12,4 +12,6 @@ class Request:
     
     async def GET(self, endpoint: str):
         response: aiohttp.ClientSession = await self._client.get(BaseAPI + endpoint, params=self._params)
+
+        await self._client.close()
         return response

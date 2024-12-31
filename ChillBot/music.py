@@ -22,7 +22,7 @@ class TrackItem:
     def plays(self) -> int:
         """How many times it was played
         
-           Type: str
+           Type: int
         """
         return self._plays
 
@@ -46,7 +46,7 @@ class ArtistListItem:
     def tracks(self) -> list[TrackItem]:
         """Amount of tracks
         
-           Type: dict
+           Type: list[TrackItem]
         """
         return [TrackItem(x, y) for x, y in self._artist.get('tracks').items()]
 
@@ -70,7 +70,7 @@ class MusicResponse:
     def artists(self) -> list[ArtistListItem]:
         """Returns the list of artists
 
-           Type: list
+           Type: list[ArtistListItem]
         """
         return [ArtistListItem(x) for x in self._response.get('artists')]
 
