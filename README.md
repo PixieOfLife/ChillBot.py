@@ -1,6 +1,8 @@
 # ChillBot.py
 An API wrapper for ChillBot's API.
 
+[![ChillBot.py](https://snyk.io/advisor/python/ChillBot.py/badge.svg)](https://snyk.io/advisor/python/ChillBot.py)
+
 ### Installation
 `pip install -U ChillBot.py`
 
