@@ -1,1 +1,1 @@
-BaseAPI = "https://api.chillbot.cloud"
+base_api = "https://api.chillbot.cloud"

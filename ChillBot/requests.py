@@ -1,5 +1,5 @@
 import aiohttp
-from .base_urls import BaseAPI
+from .base_urls import base_api
 
 class Request:
     def __init__(self, headers: dict[str, str], params: dict[str, str]):
@@ -11,7 +11,7 @@ class Request:
         )
     
     async def GET(self, endpoint: str):
-        response: aiohttp.ClientSession = await self._client.get(BaseAPI + endpoint, params=self._params)
+        response: aiohttp.ClientSession = await self._client.get(base_api + endpoint, params=self._params)
 
         await self._client.close()
         return response

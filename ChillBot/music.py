@@ -1,78 +1,54 @@
 from .requests import Request
 from .exceptions import UserNotFound
 
+from dataclasses import dataclass, field
+
+@dataclass(frozen=True)
 class TrackItem:
     """Gets the track data"""
-    def __init__(self, name: str, plays: int):
-        self._name = name
-        self._plays = plays
-    
-    def __str__(self):
-        return f"<TrackItem name={self._name} tracks={self._tracks}>"
-    
-    @property
-    def name(self) -> str:
-        """The name of the track
-        
-           Type: str
-        """
-        return self._name
-    
-    @property
-    def plays(self) -> int:
-        """How many times it was played
-        
-           Type: int
-        """
-        return self._plays
 
+    name: str
+    """The name of the track
+        
+       Type: str
+    """
+    plays: int
+    """How many times it was played
+        
+       Type: int
+    """
+
+
+@dataclass(frozen=True)
 class ArtistListItem:
     """Artist data list"""
-    def __init__(self, artist: list):
-        self._artist = artist
-    
-    def __str__(self):
-        return f"<ArtistListItem name={self.name} tracks={self.tracks}>"
-    
-    @property
-    def name(self) -> str:
-        """The name of the artist
-        
-           Type: str
-        """
-        return self._artist.get('name')
-    
-    @property
-    def tracks(self) -> list[TrackItem]:
-        """Amount of tracks
-        
-           Type: list[TrackItem]
-        """
-        return [TrackItem(x, y) for x, y in self._artist.get('tracks').items()]
 
+    name: str
+    """The name of the artist
+        
+       Type: str
+    """
+    tracks: list[TrackItem]
+    """Amount of tracks
+        
+       Type: list[TrackItem]
+    """
+
+
+@dataclass(frozen=True)
 class MusicResponse:
     """Music data response from user ID"""
-    def __init__(self, response: dict):
-        self._response = response
-    
-    def __str__(self):
-        return f"<MusicResponse id={self.id} artists={self.artists}>"
 
-    @property
-    def id(self) -> int:
-        """The User ID it returns
+    id: int
+    """The User ID it returns
 
-           Type: int
-        """
-        return self._response.get('_id')
-    
-    @property
-    def artists(self) -> list[ArtistListItem]:
-        """Returns the list of artists
+       Type: int
+    """
+    artists: list[ArtistListItem]
+    """Returns the list of artists
 
-           Type: list[ArtistListItem]
-        """
-        return [ArtistListItem(x) for x in self._response.get('artists')]
+       Type: list[ArtistListItem]
+    """
 
 
 class Music:
@@ -95,4 +71,12 @@ class Music:
             raise UserNotFound()
         
         else:
-            return MusicResponse(await response.json())
+            json_response = await response.json()
+
+            return MusicResponse(
+                json_response.get('_id'),
+                [ArtistListItem(
+                    x.get('name'),
+                    [TrackItem(x, y) for x, y in x.get('tracks').items()]
+                ) for x in json_response.get('artists')]
+            )
