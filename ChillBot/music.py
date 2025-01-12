@@ -1,7 +1,7 @@
 from .requests import Request
 from .exceptions import UserNotFound
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class TrackItem:
