@@ -46,7 +46,11 @@ class ArtistList:
     def __init__(self):
         super().__init__()
     
-    def filter(self, name: str):
+    def filter(self, name: str) -> ArtistItem | None:
+        """Filters the artist
+
+           Returns: ArtistItem | None
+        """
 
         data = [x for x in self.artists if x.get('name').lower() == name.lower()]
 
