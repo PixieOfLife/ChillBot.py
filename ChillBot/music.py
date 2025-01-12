@@ -18,10 +18,9 @@ class TrackItem:
        Type: int
     """
 
-
 @dataclass(frozen=True)
-class ArtistListItem:
-    """Artist data list"""
+class ArtistItem:
+    """Gets the artist data"""
 
     name: str
     """The name of the artist
@@ -34,6 +33,28 @@ class ArtistListItem:
        Type: list[TrackItem]
     """
 
+@dataclass(frozen=True)
+class ArtistList:
+    """Artist data list"""
+
+    artists: list[ArtistItem]
+    """The name of the artist
+        
+       Type: list[ArtistItem]
+    """
+
+    def __init__(self):
+        super().__init__()
+    
+    def filter(self, name: str):
+
+        data = [x for x in self.artists if x.get('name').lower() == name.lower()]
+
+        if len(data) == 0:
+            return None
+
+        return ArtistItem(data[0].get('name'), [TrackItem(x, y) for x, y in data[0].get('tracks').items()])
+
 
 @dataclass(frozen=True)
 class MusicResponse:
@@ -44,10 +65,10 @@ class MusicResponse:
 
        Type: int
     """
-    artists: list[ArtistListItem]
+    artists: list[ArtistList]
     """Returns the list of artists
 
-       Type: list[ArtistListItem]
+       Type: list[ArtistList]
     """
 
 
@@ -75,8 +96,10 @@ class Music:
 
             return MusicResponse(
                 json_response.get('_id'),
-                [ArtistListItem(
-                    x.get('name'),
-                    [TrackItem(x, y) for x, y in x.get('tracks').items()]
-                ) for x in json_response.get('artists')]
+                ArtistList(
+                    [ArtistItem(
+                        x.get('name'),
+                        [TrackItem(x, y) for x, y in x.get('tracks').items()]
+                    ) for x in json_response.get('artists')]
+                )
             )
