@@ -19,6 +19,32 @@ class TrackItem:
     """
 
 @dataclass(frozen=True)
+class TrackList:
+    """Track data list"""
+
+    tracks: list[TrackItem]
+    """List of tracks
+        
+       Type: list[TrackItem]
+    """
+
+    def __init__(self):
+        super().__init__()
+    
+    def filter(self, name: str) -> TrackItem | None:
+        """Filters the tracks
+
+           Returns: TrackItem | None
+        """
+
+        data = [x for x in self.tracks if x.get('name').lower() == name.lower()]
+
+        if len(data) == 0:
+            return None
+
+        return TrackItem(data[0].get('name'), data[0].get('plays'))
+
+@dataclass(frozen=True)
 class ArtistItem:
     """Gets the artist data"""
 
@@ -38,7 +64,7 @@ class ArtistList:
     """Artist data list"""
 
     artists: list[ArtistItem]
-    """The name of the artist
+    """List of artists
         
        Type: list[ArtistItem]
     """
@@ -56,8 +82,8 @@ class ArtistList:
 
         if len(data) == 0:
             return None
-
-        return ArtistItem(data[0].get('name'), [TrackItem(x, y) for x, y in data[0].get('tracks').items()])
+        
+        return ArtistItem(data[0].get('name'), TrackList([TrackItem(x, y) for x, y in data[0].get('tracks').items()]))
 
 
 @dataclass(frozen=True)
@@ -69,10 +95,10 @@ class MusicResponse:
 
        Type: int
     """
-    artists: list[ArtistList]
+    artists: ArtistList
     """Returns the list of artists
 
-       Type: list[ArtistList]
+       Type: ArtistList
     """
 
 
@@ -80,14 +106,14 @@ class Music:
     """Music class for requesting Music data"""
     
     @staticmethod
-    async def get_top_ten(id: str):
+    async def get_top_ten(id: str | int):
         """Gets the top 10 music data request
 
            Returns: MusicResponse
         """
         response = await Request(
             headers={"Content-Type": "application/json"},
-            params={"user_id": id}
+            params={"user_id": str(id)}
         ).GET(
             "/music"
         )
@@ -103,7 +129,9 @@ class Music:
                 ArtistList(
                     [ArtistItem(
                         x.get('name'),
-                        [TrackItem(x, y) for x, y in x.get('tracks').items()]
+                        TrackList(
+                            [TrackItem(x, y) for x, y in x.get('tracks').items()]
+                        )
                     ) for x in json_response.get('artists')]
                 )
             )
