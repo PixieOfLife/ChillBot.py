@@ -28,9 +28,6 @@ class TrackList:
        Type: list[TrackItem]
     """
 
-    def __init__(self):
-        super().__init__()
-    
     def filter(self, name: str) -> TrackItem | None:
         """Filters the tracks
 
@@ -69,9 +66,6 @@ class ArtistList:
        Type: list[ArtistItem]
     """
 
-    def __init__(self):
-        super().__init__()
-    
     def filter(self, name: str) -> ArtistItem | None:
         """Filters the artist
 
