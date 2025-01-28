@@ -1,7 +1,9 @@
-from .requests import Request
-from .exceptions import UserNotFound
-
 from dataclasses import dataclass
+from http import HTTPStatus
+
+from .exceptions import UserNotFound
+from .requests import Request
+
 
 @dataclass(frozen=True)
 class TrackItem:
