@@ -1,7 +1,9 @@
-from .requests import Request
-from .exceptions import UserNotFound
-
 from dataclasses import dataclass
+from http import HTTPStatus
+
+from .exceptions import UserNotFound
+from .requests import Request
+
 
 @dataclass(frozen=True)
 class TrackItem:
@@ -18,6 +20,7 @@ class TrackItem:
        Type: int
     """
 
+
 @dataclass(frozen=True)
 class TrackList:
     """Track data list"""
@@ -28,21 +31,18 @@ class TrackList:
        Type: list[TrackItem]
     """
 
-    def __init__(self):
-        super().__init__()
-    
     def filter(self, name: str) -> TrackItem | None:
         """Filters the tracks
 
-           Returns: TrackItem | None
+        Returns: TrackItem | None
         """
 
-        data = [x for x in self.tracks if x.get('name').lower() == name.lower()]
+        data: TrackItem | None = next(
+            (x for x in self.tracks if x.name.lower() == name.lower()), None
+        )
 
-        if len(data) == 0:
-            return None
+        return data
 
-        return TrackItem(data[0].get('name'), data[0].get('plays'))
 
 @dataclass(frozen=True)
 class ArtistItem:
@@ -53,11 +53,12 @@ class ArtistItem:
         
        Type: str
     """
-    tracks: list[TrackItem]
+    tracks: TrackList
     """Amount of tracks
         
-       Type: list[TrackItem]
+       Type: TrackList
     """
+
 
 @dataclass(frozen=True)
 class ArtistList:
@@ -69,21 +70,17 @@ class ArtistList:
        Type: list[ArtistItem]
     """
 
-    def __init__(self):
-        super().__init__()
-    
     def filter(self, name: str) -> ArtistItem | None:
         """Filters the artist
 
-           Returns: ArtistItem | None
+        Returns: ArtistItem | None
         """
 
-        data = [x for x in self.artists if x.get('name').lower() == name.lower()]
-
-        if len(data) == 0:
-            return None
-        
-        return ArtistItem(data[0].get('name'), TrackList([TrackItem(x, y) for x, y in data[0].get('tracks').items()]))
+        data: ArtistItem | None = next(
+            (artist for artist in self.artists if artist.name.lower() == name.lower()),
+            None,
+        )
+        return data
 
 
 @dataclass(frozen=True)
@@ -104,12 +101,12 @@ class MusicResponse:
 
 class Music:
     """Music class for requesting Music data"""
-    
+
     @staticmethod
-    async def get_top_ten(id: str | int):
+    async def get_top_ten(id: str | int) -> MusicResponse:
         """Gets the top 10 music data request
 
-           Returns: MusicResponse
+        Returns: MusicResponse
         """
         response = await Request(
             headers={"Content-Type": "application/json"},
@@ -118,20 +115,27 @@ class Music:
             "/music"
         )
 
-        if response.status == 404:
+        if response.status == HTTPStatus.NOT_FOUND:
             raise UserNotFound()
-        
-        else:
-            json_response = await response.json()
 
-            return MusicResponse(
-                json_response.get('_id'),
-                ArtistList(
-                    [ArtistItem(
-                        x.get('name'),
-                        TrackList(
-                            [TrackItem(x, y) for x, y in x.get('tracks').items()]
-                        )
-                    ) for x in json_response.get('artists')]
-                )
-            )
+        json_response = await response.json()
+
+        return MusicResponse(
+            id=json_response["_id"],
+            artists=ArtistList(
+                [
+                    ArtistItem(
+                        name=artist_data["name"],
+                        tracks=TrackList(
+                            [
+                                TrackItem(name=track_name, plays=track_plays)
+                                for track_name, track_plays in artist_data[
+                                    "tracks"
+                                ].items()
+                            ]
+                        ),
+                    )
+                    for artist_data in json_response.get("artists", [])
+                ]
+            ),
+        )
