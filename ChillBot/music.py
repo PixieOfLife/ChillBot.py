@@ -20,6 +20,7 @@ class TrackItem:
        Type: int
     """
 
+
 @dataclass(frozen=True)
 class TrackList:
     """Track data list"""
@@ -33,15 +34,15 @@ class TrackList:
     def filter(self, name: str) -> TrackItem | None:
         """Filters the tracks
 
-           Returns: TrackItem | None
+        Returns: TrackItem | None
         """
 
-        data = [x for x in self.tracks if x.get('name').lower() == name.lower()]
+        data: TrackItem | None = next(
+            (x for x in self.tracks if x.name.lower() == name.lower()), None
+        )
 
-        if len(data) == 0:
-            return None
+        return data
 
-        return TrackItem(data[0].get('name'), data[0].get('plays'))
 
 @dataclass(frozen=True)
 class ArtistItem:
@@ -52,11 +53,12 @@ class ArtistItem:
         
        Type: str
     """
-    tracks: list[TrackItem]
+    tracks: TrackList
     """Amount of tracks
         
-       Type: list[TrackItem]
+       Type: TrackList
     """
+
 
 @dataclass(frozen=True)
 class ArtistList:
@@ -71,15 +73,14 @@ class ArtistList:
     def filter(self, name: str) -> ArtistItem | None:
         """Filters the artist
 
-           Returns: ArtistItem | None
+        Returns: ArtistItem | None
         """
 
-        data = [x for x in self.artists if x.get('name').lower() == name.lower()]
-
-        if len(data) == 0:
-            return None
-        
-        return ArtistItem(data[0].get('name'), TrackList([TrackItem(x, y) for x, y in data[0].get('tracks').items()]))
+        data: ArtistItem | None = next(
+            (artist for artist in self.artists if artist.name.lower() == name.lower()),
+            None,
+        )
+        return data
 
 
 @dataclass(frozen=True)
