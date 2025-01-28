@@ -101,12 +101,12 @@ class MusicResponse:
 
 class Music:
     """Music class for requesting Music data"""
-    
+
     @staticmethod
-    async def get_top_ten(id: str | int):
+    async def get_top_ten(id: str | int) -> MusicResponse:
         """Gets the top 10 music data request
 
-           Returns: MusicResponse
+        Returns: MusicResponse
         """
         response = await Request(
             headers={"Content-Type": "application/json"},
@@ -115,20 +115,27 @@ class Music:
             "/music"
         )
 
-        if response.status == 404:
+        if response.status == HTTPStatus.NOT_FOUND:
             raise UserNotFound()
-        
-        else:
-            json_response = await response.json()
 
-            return MusicResponse(
-                json_response.get('_id'),
-                ArtistList(
-                    [ArtistItem(
-                        x.get('name'),
-                        TrackList(
-                            [TrackItem(x, y) for x, y in x.get('tracks').items()]
-                        )
-                    ) for x in json_response.get('artists')]
-                )
-            )
+        json_response = await response.json()
+
+        return MusicResponse(
+            id=json_response["_id"],
+            artists=ArtistList(
+                [
+                    ArtistItem(
+                        name=artist_data["name"],
+                        tracks=TrackList(
+                            [
+                                TrackItem(name=track_name, plays=track_plays)
+                                for track_name, track_plays in artist_data[
+                                    "tracks"
+                                ].items()
+                            ]
+                        ),
+                    )
+                    for artist_data in json_response.get("artists", [])
+                ]
+            ),
+        )
