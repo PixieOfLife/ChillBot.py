@@ -1,17 +1,14 @@
 import aiohttp
+
 from .base_urls import base_api
 
+
 class Request:
-    def __init__(self, headers: dict[str, str], params: dict[str, str]):
+    def __init__(self, headers: dict[str, str], params: dict[str, str]) -> None:
         self._headers: dict[str, str] = headers
-        self._params = params
+        self._params: dict[str, str] = params
 
-        self._client: aiohttp.ClientSession = aiohttp.ClientSession(
-            headers=self._headers
-        )
-    
-    async def GET(self, endpoint: str):
-        response: aiohttp.ClientSession = await self._client.get(base_api + endpoint, params=self._params)
-
-        await self._client.close()
-        return response
+    async def GET(self, endpoint: str) -> aiohttp.ClientResponse:
+        async with aiohttp.ClientSession(headers=self._headers) as session:
+            async with session.get(base_api + endpoint, params=self._params) as response:
+                return response
